@@ -1,0 +1,35 @@
+{
+  "name": "twenty-front",
+  "version": "0.23.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "npx vite build && sh ./scripts/inject-runtime-env.sh",
+    "build:sourcemaps": "VITE_BUILD_SOURCEMAP=true NODE_OPTIONS=--max-old-space-size=4096 npx nx build",
+    "start:prod": "NODE_ENV=production npx vite --host",
+    "tsup": "npx tsup"
+  },
+  "engines": {
+    "node": "^18.17.1",
+    "npm": "please-use-yarn",
+    "yarn": "^4.0.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "msw": {
+    "workerDirectory": "public"
+  },
+  "dependencies": {
+    "transliteration": "^2.3.5"
+  }
+}

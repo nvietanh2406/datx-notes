@@ -1,0 +1,152 @@
+#I. pfm db
+# on 192.168.0.32
+$ byobu-screen -DDR hh
+mysqldump -u root -p --databases brokerOrderDb  brokerSummaryDb brokerTransactionDb datxNewsDb hsxApp logDb orderDb orderDbDev orderLogsDb phaisinhOrderDb phaisinhPortfolioPerformanceDb phaisinhPortfolioSumDb phaisinhPortfolioSumForAppDb phaisinhPortfolioTransactionDb portfolioDataDb portfolioOrderDb portfolioPerformanceDailyDb portfolioPerformanceDb portfolioPerformanceHistDb portfolioRightDividendDb portfolioSumDb portfolioSumForAppDb portfolioTransactionDb recommendationDb runningLogsDb testdb transactionDb webDataDb xwealthDb  |gzip > $(date +"%Y%m%d")-pfmDbs.sql.gz
+
+# on 192.168.0.31 servers:
+
+$ byobu-screen -DDR hh
+rsync -avzP ubuntu@192.168.0.32:/home/ubuntu/$(date +"%Y%m%d")-pfmDbs.sql.gz .
+gzip -d $(date +"%Y%m%d")-pfmDbs.sql.gz
+
+$mysql -u root -p
+
+drop database brokerOrderDb ;
+drop database brokerSummaryDb ;
+drop database brokerTransactionDb ;
+drop database datxNewsDb ;
+drop database hsxApp ;
+drop database logDb ;
+drop database orderDb ; 
+drop database orderDbDev ;
+drop database orderLogsDb ;
+drop database phaisinhOrderDb ;
+drop database phaisinhPortfolioPerformanceDb ;
+drop database phaisinhPortfolioSumDb ;
+drop database phaisinhPortfolioSumForAppDb ;
+drop database phaisinhPortfolioTransactionDb ;
+drop database portfolioDataDb ;
+drop database portfolioOrderDb ;
+drop database portfolioPerformanceDailyDb ;
+drop database portfolioPerformanceDb ;
+drop database portfolioPerformanceHistDb ;
+drop database portfolioRightDividendDb ;
+drop database portfolioSumDb ;
+drop database portfolioSumForAppDb ;
+drop database portfolioTransactionDb ;
+drop database recommendationDb ;
+drop database runningLogsDb ;
+drop database testdb ;
+drop database transactionDb ;
+drop database webDataDb ;
+drop database xwealthDb ;
+
+create database brokerOrderDb ;
+create database brokerSummaryDb ;
+create database brokerTransactionDb ;
+create database datxNewsDb ;
+create database hsxApp ;
+create database logDb ;
+create database orderDb ; 
+create database orderDbDev ;
+create database orderLogsDb ;
+create database phaisinhOrderDb ;
+create database phaisinhPortfolioPerformanceDb ;
+create database phaisinhPortfolioSumDb ;
+create database phaisinhPortfolioSumForAppDb ;
+create database phaisinhPortfolioTransactionDb ;
+create database portfolioDataDb ;
+create database portfolioOrderDb ;
+create database portfolioPerformanceDailyDb ;
+create database portfolioPerformanceDb ;
+create database portfolioPerformanceHistDb ;
+create database portfolioRightDividendDb ;
+create database portfolioSumDb ;
+create database portfolioSumForAppDb ;
+create database portfolioTransactionDb ;
+create database recommendationDb ;
+create database runningLogsDb ;
+create database testdb ;
+create database transactionDb ;
+create database webDataDb ;
+create database xwealthDb ;
+
+mysql -u root -p < $(date +"%Y%m%d")-pfmDbs.sql
+
+#II. Vix db
+
+# on 10.19.1.60
+
+# VIX dump DB
+
+# on 192.168.0.31 servers:
+
+$ byobu-screen -DDR hh
+
+$mysql -u root -p
+
+drop database fiinprodb;
+
+create database fiinprodb;
+
+mysql -u  --one-database fiinprodb < full_backup-20240809-193312.sql
+
+
+#III. Setup Replica multi channel for 192.168.0.32 and 10.19.1.60:
+#1. Get master info
+# on 192.168.0.32:
+
+$ mysql -u root -p
+
+show master status\G
+
+*************************** 1. row ***************************
+File: mysql-bin.xxx
+Position: yyy
+Binlog_Do_DB:
+Binlog_Ignore_DB:
+Executed_Gtid_Set:
+1 row in set (0.00 sec)
+
+#Note: xxx, yyy
+
+# on 10.19.1.60:
+
+$ mysql -u root -p
+
+show master status\G
+
+*************************** 1. row ***************************
+File: mysql-bin.zzz
+Position: ttt
+Binlog_Do_DB:
+Binlog_Ignore_DB:
+Executed_Gtid_Set:
+
+#note: zzz, ttt
+
+
+#2. Config on slave
+
+# on 192.168.0.31:
+$ byobu-screen -DDR hh
+$ mysql -u root -p
+
+STOP SLAVE;
+RESET SLAVE;
+RESET SLAVE ALL;
+
+#Create channel 'db-pfm02' to replica DBs from '192.168.0.32' 
+
+CHANGE REPLICATION SOURCE TO SOURCE_HOST='192.168.0.32', SOURCE_USER='repl', SOURCE_PASSWORD='Datxvn@2019', SOURCE_LOG_FILE='mysql-bin.xxx', SOURCE_LOG_POS=yyy FOR CHANNEL 'db-pfm02';
+CHANGE REPLICATION FILTER REPLICATE_WILD_DO_TABLE = ('brokerOrderDb.%','brokerSummaryDb.%','brokerTransactionDb.%','datxNewsDb.%','hsxApp.%','logDb.%','orderDb.%','orderDbDev.%','orderLogsDb.%','phaisinhOrderDb.%','phaisinhPortfolioPerformanceDb.%','phaisinhPortfolioSumDb.%','phaisinhPortfolioSumForAppDb.%','phaisinhPortfolioTransactionDb.%','portfolioDataDb.%','portfolioOrderDb.%','portfolioPerformanceDailyDb.%','portfolioPerformanceDb.%','portfolioPerformanceHistDb.%','portfolioRightDividendDb.%','portfolioSumDb.%','portfolioSumForAppDb.%','portfolioTransactionDb.%','recommendationDb.%','runningLogsDb.%','testdb.%','transactionDb.%','webDataDb.%','xwealthDb.%') FORCHANNEL 'db-pfm02';
+
+START REPLICA FOR CHANNEL "db-pfm02";
+SHOW REPLICA STATUS FOR CHANNEL "db-pfm02"\G
+
+# Create channel “db-vix02” to replica DBs from 10.19.1.60
+
+CHANGE REPLICATION SOURCE TO SOURCE_HOST="10.19.1.60", SOURCE_USER="replica_user", SOURCE_PASSWORD="VlhetaPlS32JIXIS4lsU", SOURCE_LOG_FILE='mysql-bin.zzz', SOURCE_LOG_POS=ttt FOR CHANNEL "db-vix02"; 
+CHANGE REPLICATION FILTER REPLICATE_WILD_DO_TABLE = ('vixDb.%') FOR CHANNEL "db-vix02";
+START REPLICA FOR CHANNEL "db-vix02";
+SHOW REPLICA STATUS FOR CHANNEL "db-vix02"\G

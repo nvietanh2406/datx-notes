@@ -1,0 +1,6 @@
+.vs_code/
+.idea/
+.env
+.env.crm
+.env.db
+test-*.sh

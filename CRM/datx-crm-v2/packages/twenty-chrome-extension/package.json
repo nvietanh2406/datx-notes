@@ -1,0 +1,10 @@
+{
+  "name": "twenty-chrome-extension",
+  "description": "",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "build": "npx vite build"
+  }
+}

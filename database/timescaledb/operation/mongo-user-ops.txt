@@ -1,0 +1,12 @@
+các bước xử lý khi timescaledb lỗi đẩy ổ:
+B1: Reboot VM write đang bị đầy.
+Chờ VM start lại rồi SSH vào VM:
+B2: Stop patroni
+systemctl stop patroni
+B3: Recreate leader
+/usr/sbin/modprobe softdog && /usr/bin/chown postgres:postgres /dev/watchdog && systemctl restart patroni
+B4: Verify Member
+patronictl -c /etc/patroni.yml list
+Nếu có replicate nào ở trạng thái (State) không phải là streaming thì reinit lại.
+VD member datx-tsdb01 lỗi -->
+patronictl -c /etc/patroni.yml reinit postgres datx-tsdb01

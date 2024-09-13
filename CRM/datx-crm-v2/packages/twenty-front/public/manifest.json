@@ -1,0 +1,458 @@
+{
+  "short_name": "Twenty",
+  "name": "Twenty",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "icons/favicon.png",
+      "sizes": "71x71"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "89x89"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "107x107"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "142x142"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "284x284"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "150x150"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "188x188"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "225x225"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "300x300"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "600x600"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "310x150"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "388x188"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "465x225"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "620x300"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "1240x600"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "310x310"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "388x388"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "465x465"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "620x620"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "1240x1240"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "44x44"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "55x55"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "66x66"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "88x88"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "176x176"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "50x50"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "63x63"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "75x75"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "100x100"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "200x200"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "620x300"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "775x375"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "930x450"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "1240x600"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "2480x1200"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "20x20"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "24x24"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "30x30"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "36x36"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "40x40"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "44x44"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "60x60"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "80x80"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "20x20"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "24x24"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "30x30"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "36x36"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "40x40"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "44x44"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "60x60"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "80x80"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "20x20"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "24x24"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "30x30"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "36x36"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "40x40"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "44x44"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "60x60"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "80x80"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "20x20"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "29x29"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "40x40"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "50x50"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "57x57"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "58x58"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "60x60"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "76x76"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "80x80"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "87x87"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "100x100"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "114x114"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "120x120"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "152x152"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "167x167"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "180x180"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "icons/favicon.png",
+      "sizes": "1024x1024"
+    }
+  ]
+}

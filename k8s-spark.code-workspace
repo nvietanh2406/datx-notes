@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "k8s-spark",
+			"path": "k8s-spark"
+		},
+		{
+			"name": "configs",
+			"path": "k8s-intervpc/configs"
+		}
+	],
+	"settings": {}
+}

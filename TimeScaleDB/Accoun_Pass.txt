@@ -1,0 +1,4 @@
+SELECT 'md5' || md5('9fqmWLIDGdkMaSG2XnBiyIY9' || 'postgres');
+SELECT 'md5' || md5('WjBMCibo53fPKgn3ppmYqkwf' || 'replicator');
+SELECT 'md5' || md5('eZ2cvBaeZj2cVz2DS23Q5Zg4' || 'data_read');
+SELECT 'md5' || md5('7pHO8QUXMAiWzEORSYRtAvnv' || 'data_write');

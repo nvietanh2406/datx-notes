@@ -1,0 +1,24 @@
+#1. Create MySQL Backup user
+
+CREATE USER 'mysqlbackup'@'192.168.0.0/24' IDENTIFIED BY '3mTavkJ3W5Z&QR~W~Duy#rVW';
+GRANT RELOAD, SUPER, PROCESS ON *.* TO 'mysqlbackup'@'192.168.0.0/24';
+GRANT CREATE, INSERT, DROP, UPDATE ON mysql.backup_progress TO 'mysqlbackup'@'192.168.0.0/24';
+GRANT CREATE, INSERT, SELECT, DROP, UPDATE, ALTER ON mysql.backup_history TO 'mysqlbackup'@'192.168.0.0/24';
+GRANT REPLICATION CLIENT ON *.* TO 'mysqlbackup'@'192.168.0.0/24';
+GRANT SELECT ON performance_schema.replication_group_members TO 'mysqlbackup'@'192.168.0.0/24';
+GRANT LOCK TABLES, SELECT, CREATE, DROP, FILE ON *.* TO 'mysqlbackup'@'192.168.0.0/24';
+GRANT CREATE, INSERT, DROP, UPDATE ON mysql.backup_sbt_history TO 'mysqlbackup'@'192.168.0.0/24';
+
+#2. Create linux backup user
+apt install rsync
+adduser datxbackup
+mkdir -p /opt/backup/ /var/log/backup/ /data/backup/
+touch /var/log/backup/backup-mysqldb-cronjob.log
+chown datxbackup. /opt/backup/ /var/log/backup/ /data/backup/ -R
+su - datxbackup
+ 
+ssh-keygen -t rsa -b 4096 -C "datxbackup@192.168.0.61"
+
+#3. Setup cronjob 
+#Backup MySQL
+0 3 * * * /usr/bin/bash /opt/backup/mysql/backup-mysqldb.sh >> /var/log/backup/backup-mysqldb-cronjob.log 2>&1

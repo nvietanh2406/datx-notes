@@ -1,0 +1,164 @@
+# 1. Login vào 1 trong các servers mongo02, 03 hoặc 04 (192.168.0.22 - 192.168.0.24). Nhưng tốt nhất là login vào primary server để đề phòng trường hợp cần restore DB.
+
+# 2. Tạo thư mục backup và đăng nhập thư mục.
+mkdir $(date +"%Y%m%d") && cd $(date +"%Y%m%d")
+
+# 3. Backup database cần thiết. Ví dụ đối với các deployment của SDC, các db dưới đây đã từng cần backup:
+mongodump -u BackupUser --authenticationDatabase=admin --db=datx_portfolio_v2 -o ./ 
+mongodump -u BackupUser --authenticationDatabase=admin --db=order_manage -o ./ 
+mongodump -u BackupUser --authenticationDatabase=admin --db=sales_portal -o ./ 
+
+# 4. Hoặc trong trường hợp chỉ cần backup 1 collection:
+cd $(date +"%Y%m%d")
+mongodump -u BackupUser --authenticationDatabase=admin --db=datx_portfolio_v2 -c  users -o ./ 
+
+# 5. Nếu cần phải rollback/restore DB đã backup. Lưu ý: Nếu restore, cần login vào Primary server.
+cd $(date +"%Y%m%d")
+mongorestore -u BackupUser --authenticationDatabase=admin --db datx_portfolio_v2  --drop datx_portfolio_v2/
+mongorestore -u BackupUser --authenticationDatabase=admin --db order_manage  --drop order_manage/
+mongorestore -u BackupUser --authenticationDatabase=admin --db sales_portal  --drop sales_portal/
+
+# 6. Trong trường hợp chỉ cần restore 1 collection:
+cd $(date +"%Y%m%d")
+mongorestore -u BackupUser --authenticationDatabase=admin --db datx_portfolio_v2 --collection users --drop datx_portfolio_v2/users.bson
+
+
+# Thông tin account dùng để backup:
+BackupUser/DjL5hvJ5VCpLodkhtJWTRL5FruC2SCvM
+
+# 7. restore all db 
+## backup
+backup_user="mongo-root"
+backup_pass="w2tWZe3HKJHcgxLLQoudnp4d"
+backup_auth_db="admin"
+local_backup_path="/data/backup/mongodb"
+backup_file="${local_backup_path}"/all-database-$(date +%Y-%m-%d_%Hh%Mm).gz
+time mongodump --authenticationDatabase="${backup_auth_db}" --username="${backup_user}" --password="${backup_pass}" --gzip --archive="${backup_file}"
+
+## transfer
+ rsync -avzP --bwlimit=90000 -e "ssh -i /home/datxbackup/.ssh/id_rsa -o StrictHostKeyChecking=no" /data/backup/mongodb/all-database-2024-06-*.gz datxbackup@$hostname:/data/backup/mongodb/
+
+## restore
+mongorestore -u mongo-root --authenticationDatabase=admin --gzip --archive=/data/backup/mongodb/all-database-2024-06-14_22h15m.gz
+
+## check restore
+$mongosh -u mongo-root -p --authenticationDatabase admin
+# password: w2tWZe3HKJHcgxLLQoudnp4d
+
+# resoult
+rsdev01 [direct: primary] test> rs.status()
+{
+  set: 'rsdev01',
+  date: ISODate('2024-06-17T02:30:29.084Z'),
+  myState: 1,
+  term: Long('6'),
+  syncSourceHost: '',
+  syncSourceId: -1,
+  heartbeatIntervalMillis: Long('2000'),
+  majorityVoteCount: 2,
+  writeMajorityCount: 2,
+  votingMembersCount: 3,
+  writableVotingMembersCount: 3,
+  optimes: {
+    lastCommittedOpTime: { ts: Timestamp({ t: 1718591425, i: 1 }), t: Long('6') },
+    lastCommittedWallTime: ISODate('2024-06-17T02:30:25.656Z'),
+    readConcernMajorityOpTime: { ts: Timestamp({ t: 1718591425, i: 1 }), t: Long('6') },
+    appliedOpTime: { ts: Timestamp({ t: 1718591425, i: 1 }), t: Long('6') },
+    durableOpTime: { ts: Timestamp({ t: 1718591425, i: 1 }), t: Long('6') },
+    lastAppliedWallTime: ISODate('2024-06-17T02:30:25.656Z'),
+    lastDurableWallTime: ISODate('2024-06-17T02:30:25.656Z')
+  },
+  lastStableRecoveryTimestamp: Timestamp({ t: 1718591415, i: 1 }),
+  electionCandidateMetrics: {
+    lastElectionReason: 'electionTimeout',
+    lastElectionDate: ISODate('2024-06-16T14:33:14.295Z'),
+    electionTerm: Long('6'),
+    lastCommittedOpTimeAtElection: { ts: Timestamp({ t: 0, i: 0 }), t: Long('-1') },
+    lastSeenOpTimeAtElection: { ts: Timestamp({ t: 1718439439, i: 1 }), t: Long('5') },
+    numVotesNeeded: 2,
+    priorityAtElection: 1,
+    electionTimeoutMillis: Long('10000'),
+    numCatchUpOps: Long('0'),
+    newTermStartDate: ISODate('2024-06-16T14:33:14.303Z'),
+    wMajorityWriteAvailabilityDate: ISODate('2024-06-16T14:59:58.633Z')
+  },
+  members: [
+    {
+      _id: 0,
+      name: '10.48.15.120:27017',
+      health: 1,
+      state: 1,
+      stateStr: 'PRIMARY',
+      uptime: 43060,
+      optime: { ts: Timestamp({ t: 1718591425, i: 1 }), t: Long('6') },
+      optimeDate: ISODate('2024-06-17T02:30:25.000Z'),
+      lastAppliedWallTime: ISODate('2024-06-17T02:30:25.656Z'),
+      lastDurableWallTime: ISODate('2024-06-17T02:30:25.656Z'),
+      syncSourceHost: '',
+      syncSourceId: -1,
+      infoMessage: '',
+      electionTime: Timestamp({ t: 1718548394, i: 1 }),
+      electionDate: ISODate('2024-06-16T14:33:14.000Z'),
+      configVersion: 105983,
+      configTerm: 6,
+      self: true,
+      lastHeartbeatMessage: ''
+    },
+    {
+      _id: 1,
+      name: '10.48.15.121:27017',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 43045,
+      optime: { ts: Timestamp({ t: 1718591425, i: 1 }), t: Long('6') },
+      optimeDurable: { ts: Timestamp({ t: 1718591425, i: 1 }), t: Long('6') },
+      optimeDate: ISODate('2024-06-17T02:30:25.000Z'),
+      optimeDurableDate: ISODate('2024-06-17T02:30:25.000Z'),
+      lastAppliedWallTime: ISODate('2024-06-17T02:30:25.656Z'),
+      lastDurableWallTime: ISODate('2024-06-17T02:30:25.656Z'),
+      lastHeartbeat: ISODate('2024-06-17T02:30:27.673Z'),
+      lastHeartbeatRecv: ISODate('2024-06-17T02:30:28.020Z'),
+      pingMs: Long('0'),
+      lastHeartbeatMessage: '',
+      syncSourceHost: '10.48.15.120:27017',
+      syncSourceId: 0,
+      infoMessage: '',
+      configVersion: 105983,
+      configTerm: 6
+    },
+    {
+      _id: 2,
+      name: '10.48.15.122:27017',
+      health: 1,
+      state: 2,
+      stateStr: 'SECONDARY',
+      uptime: 42982,
+      optime: { ts: Timestamp({ t: 1718591425, i: 1 }), t: Long('6') },
+      optimeDurable: { ts: Timestamp({ t: 1718591425, i: 1 }), t: Long('6') },
+      optimeDate: ISODate('2024-06-17T02:30:25.000Z'),
+      optimeDurableDate: ISODate('2024-06-17T02:30:25.000Z'),
+      lastAppliedWallTime: ISODate('2024-06-17T02:30:25.656Z'),
+      lastDurableWallTime: ISODate('2024-06-17T02:30:25.656Z'),
+      lastHeartbeat: ISODate('2024-06-17T02:30:27.674Z'),
+      lastHeartbeatRecv: ISODate('2024-06-17T02:30:28.019Z'),
+      pingMs: Long('0'),
+      lastHeartbeatMessage: '',
+      syncSourceHost: '10.48.15.121:27017',
+      syncSourceId: 1,
+      infoMessage: '',
+      configVersion: 105983,
+      configTerm: 6
+    }
+  ],
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1718591425, i: 1 }),
+    signature: {
+      hash: Binary.createFromBase64('j3spE7OiwfB2r3SRpT9e+btGR7A=', 0),
+      keyId: Long('7380206698885021703')
+    }
+  },
+  operationTime: Timestamp({ t: 1718591425, i: 1 })
+}
+

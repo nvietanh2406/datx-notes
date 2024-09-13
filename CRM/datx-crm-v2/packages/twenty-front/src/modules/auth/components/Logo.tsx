@@ -1,0 +1,67 @@
+import styled from '@emotion/styled';
+
+import { getImageAbsoluteURI } from '~/utils/image/getImageAbsoluteURI';
+
+type LogoProps = {
+  workspaceLogo?: string | null;
+};
+
+const StyledContainer = styled.div`
+  height: 48px;
+  margin-bottom: ${({ theme }) => theme.spacing(4)};
+  margin-top: ${({ theme }) => theme.spacing(4)};
+
+  position: relative;
+  width: 48px;
+`;
+
+const StyledTwentyLogo = styled.img`
+  border-radius: ${({ theme }) => theme.border.radius.xs};
+  height: 24px;
+  width: 24px;
+`;
+
+const StyledTwentyLogoContainer = styled.div`
+  align-items: center;
+  background-color: ${({ theme }) => theme.background.primary};
+  border-radius: ${({ theme }) => theme.border.radius.sm};
+  bottom: ${({ theme }) => `-${theme.spacing(3)}`};
+  display: flex;
+  height: 28px;
+  justify-content: center;
+
+  position: absolute;
+  right: ${({ theme }) => `-${theme.spacing(3)}`};
+  width: 28px;
+`;
+
+type StyledMainLogoProps = {
+  logo?: string | null;
+};
+
+const StyledMainLogo = styled.div<StyledMainLogoProps>`
+  background: url(${(props) => props.logo});
+  background-size: cover;
+  height: 100%;
+
+  width: 100%;
+`;
+
+export const Logo = ({ workspaceLogo }: LogoProps) => {
+  if (!workspaceLogo) {
+    return (
+      <StyledContainer>
+        <StyledMainLogo logo="/icons/favicon.png" />
+      </StyledContainer>
+    );
+  }
+
+  return (
+    <StyledContainer>
+      <StyledMainLogo logo={getImageAbsoluteURI(workspaceLogo)} />
+      <StyledTwentyLogoContainer>
+        <StyledTwentyLogo src="/icons/favicon.png" />
+      </StyledTwentyLogoContainer>
+    </StyledContainer>
+  );
+};

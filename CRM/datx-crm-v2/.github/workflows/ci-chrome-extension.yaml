@@ -1,0 +1,32 @@
+name: CI Chrome Extension
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'package.json'
+      - 'packages/twenty-chrome-extension/**'
+  pull_request:
+    paths:
+      - 'package.json'
+      - 'packages/twenty-chrome-extension/**'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  chrome-extension-build:
+    runs-on: ubuntu-latest
+    env:
+      VITE_SERVER_BASE_URL: http://localhost:3000
+      VITE_FRONT_BASE_URL: http://localhost:3001
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.11.0
+        with:
+          access_token: ${{ github.token }}
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        uses: ./.github/workflows/actions/yarn-install
+      - name: Chrome Extension / Run build
+        run: npx nx build twenty-chrome-extension
